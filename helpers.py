@@ -22,6 +22,8 @@ GREY   = "#64748B"
 TEXT   = "#E2DFD8"
 SUBTEXT= "#94A3B8"
 
+_TITLE_FONT = dict(color=GOLD, size=15, family="Georgia, serif")
+
 CHART_THEME = dict(
     paper_bgcolor=NAVY2,
     plot_bgcolor="#0D1B2E",
@@ -29,7 +31,26 @@ CHART_THEME = dict(
     xaxis=dict(gridcolor="#1E3455", linecolor="#1E3455", tickcolor=SUBTEXT),
     yaxis=dict(gridcolor="#1E3455", linecolor="#1E3455", tickcolor=SUBTEXT),
     legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=SUBTEXT)),
-    title=dict(font=dict(color=GOLD, size=15, family="Georgia, serif")),
+    title_font=_TITLE_FONT,
+)
+
+# Use for pie / donut charts — no xaxis/yaxis keys
+PIE_THEME = dict(
+    paper_bgcolor=NAVY2,
+    font=dict(family="Georgia, serif", color=SUBTEXT, size=12),
+    legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=SUBTEXT)),
+    title_font=_TITLE_FONT,
+)
+
+# Use for heatmaps — no plot_bgcolor (can conflict with colorscale rendering)
+HEAT_THEME = dict(
+    paper_bgcolor=NAVY2,
+    plot_bgcolor=NAVY2,
+    font=dict(family="Georgia, serif", color=SUBTEXT, size=12),
+    xaxis=dict(gridcolor="#1E3455", linecolor="#1E3455", tickcolor=SUBTEXT),
+    yaxis=dict(gridcolor="#1E3455", linecolor="#1E3455", tickcolor=SUBTEXT),
+    legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=SUBTEXT)),
+    title_font=_TITLE_FONT,
 )
 
 ACCEPT_COLORS = {0: RED, 1: GREEN}

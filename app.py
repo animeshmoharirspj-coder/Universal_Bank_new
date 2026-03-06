@@ -13,7 +13,8 @@ from plotly.subplots import make_subplots
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
-from helpers import (load_data, train_model, CHART_THEME, GOLD, GOLD2, NAVY, NAVY2,
+from helpers import (load_data, train_model, CHART_THEME, PIE_THEME, HEAT_THEME,
+                     GOLD, GOLD2, NAVY, NAVY2,
                      NAVY3, TEAL, GREEN, RED, GREY, TEXT, SUBTEXT,
                      ACCEPT_COLORS, FEATURES, TARGET, EDU_MAP)
 
@@ -341,8 +342,8 @@ with tab1:
             domain=dict(x=[0.15,0.85],y=[0.15,0.85]),
         ))
         fig_donut.update_layout(
-            **CHART_THEME, height=380,
-            title=f"Acceptance · inner ring = {donut_breakdown}",
+            **PIE_THEME, height=380,
+            title_text=f"Acceptance · inner ring = {donut_breakdown}",
             annotations=[dict(text=f"<b>{acc_rate:.1f}%</b><br>Accept", x=0.5,y=0.5,
                               font=dict(size=16,color=GOLD2,family="DM Mono,monospace"),
                               showarrow=False)],
@@ -367,7 +368,7 @@ with tab1:
         fig_edu.add_trace(go.Bar(name="Declined", x=edu_acc["Education_Label"],
                                   y=edu_acc["declined"], marker_color=RED))
         fig_edu.update_layout(**CHART_THEME, barmode="stack", height=380,
-                               title="Customer Count & Acceptance Rate by Education",
+                               title_text="Customer Count & Acceptance Rate by Education",
                                xaxis_title="Education", yaxis_title="# Customers")
         st.plotly_chart(fig_edu, use_container_width=True)
 
@@ -416,7 +417,7 @@ with tab1:
             fig_avg.add_trace(go.Bar(name=feat, x=avg_by_edu["Education_Label"],
                                       y=avg_by_edu[feat], marker_color=color))
         fig_avg.update_layout(**CHART_THEME, barmode="group", height=300,
-                               title="Avg Income / CCAvg / Mortgage by Education",
+                               title_text="Avg Income / CCAvg / Mortgage by Education",
                                yaxis_title="Amount ($000)")
         st.plotly_chart(fig_avg, use_container_width=True)
 
@@ -501,7 +502,7 @@ with tab2:
         textfont=dict(size=9.5, color="white"),
         colorbar=dict(tickfont=dict(color=SUBTEXT)),
     ))
-    fig_heat.update_layout(**CHART_THEME, title="Feature Correlation Matrix", height=520)
+    fig_heat.update_layout(**HEAT_THEME, title_text="Feature Correlation Matrix", height=520)
     st.plotly_chart(fig_heat, use_container_width=True)
     st.markdown('<div class="insight">📌 <b>Income (r=0.50)</b> and <b>CCAvg (r=0.37)</b> have the strongest positive correlations with Personal Loan acceptance. <b>CD Account (r=0.32)</b> and <b>Education (r=0.15)</b> also contribute. Note that Age and Experience are near-perfectly correlated (r=0.99) — only one needs to be in the model.</div>', unsafe_allow_html=True)
 
@@ -535,7 +536,7 @@ with tab2:
                 meanline_visible=True, fillcolor=color,
                 opacity=0.5, line_color=color,
             ))
-        fig_box.update_layout(**CHART_THEME, title=f"{feat_choice} — Accepted vs Declined",
+        fig_box.update_layout(**CHART_THEME, title_text=f"{feat_choice} — Accepted vs Declined",
                                yaxis_title=feat_choice, height=380)
         st.plotly_chart(fig_box, use_container_width=True)
 
@@ -567,7 +568,7 @@ with tab2:
             text=pivot.values.round(1), texttemplate="%{text}%",
             textfont=dict(size=16,color="white"),
         ))
-        fig_piv.update_layout(**CHART_THEME, title="Acceptance Rate %: CD Account × Online Banking", height=300)
+        fig_piv.update_layout(**CHART_THEME, title_text="Acceptance Rate %: CD Account × Online Banking", height=300)
         st.plotly_chart(fig_piv, use_container_width=True)
 
     with col2:
@@ -602,7 +603,7 @@ with tab2:
         textfont=dict(size=13,color="white"),
         colorbar=dict(tickfont=dict(color=SUBTEXT)),
     ))
-    fig_piv2.update_layout(**CHART_THEME, title="Acceptance Rate %: Education × Income", height=320)
+    fig_piv2.update_layout(**CHART_THEME, title_text="Acceptance Rate %: Education × Income", height=320)
     st.plotly_chart(fig_piv2, use_container_width=True)
 
     st.markdown('<div class="insight">📌 The highest acceptance rates (>30%) occur in the intersection of <b>Advanced/Professional education and Very High income (>$120K)</b>. Even at high income, undergraduates show lower rates — suggesting education-driven financial attitudes matter independently.</div>', unsafe_allow_html=True)
@@ -640,7 +641,7 @@ with tab3:
             fillcolor="rgba(201,168,76,0.08)"))
         fig_roc.add_trace(go.Scatter(x=[0,1],y=[0,1],mode="lines",
             name="Random",line=dict(color=GREY,dash="dash")))
-        fig_roc.update_layout(**CHART_THEME, title="ROC Curve", height=320,
+        fig_roc.update_layout(**CHART_THEME, title_text="ROC Curve", height=320,
                                xaxis_title="False Positive Rate", yaxis_title="True Positive Rate")
         st.plotly_chart(fig_roc, use_container_width=True)
 
@@ -649,7 +650,7 @@ with tab3:
             x=metrics["rec"], y=metrics["prec"], mode="lines",
             fill="tozeroy", line=dict(color=TEAL, width=2),
             fillcolor="rgba(14,165,233,0.1)"))
-        fig_pr.update_layout(**CHART_THEME, title=f"Precision-Recall (AP={metrics['ap']:.3f})",
+        fig_pr.update_layout(**CHART_THEME, title_text=f"Precision-Recall (AP={metrics['ap']:.3f})",
                               height=320, xaxis_title="Recall", yaxis_title="Precision")
         st.plotly_chart(fig_pr, use_container_width=True)
 
@@ -660,7 +661,7 @@ with tab3:
             colorscale=[[0,NAVY2],[1,GOLD]],
             text=cm, texttemplate="%{text}", textfont=dict(size=20,color="white"),
         ))
-        fig_cm.update_layout(**CHART_THEME, title="Confusion Matrix", height=320)
+        fig_cm.update_layout(**CHART_THEME, title_text="Confusion Matrix", height=320)
         st.plotly_chart(fig_cm, use_container_width=True)
 
     # ── Feature Importance ─────────────────────────────────────────────
@@ -673,7 +674,7 @@ with tab3:
         text=[f"{v:.3f}" for v in fi.values], textposition="outside",
         textfont=dict(color=TEXT),
     ))
-    fig_fi.update_layout(**CHART_THEME, title="Random Forest Feature Importances",
+    fig_fi.update_layout(**CHART_THEME, title_text="Random Forest Feature Importances",
                           height=380, xaxis_title="Importance")
     st.plotly_chart(fig_fi, use_container_width=True)
     st.markdown('<div class="insight">📌 <b>Income is the dominant predictor</b>, followed by <b>CCAvg, Education, CD Account, and Family</b>. These five features together explain the majority of the model\'s discriminative power. Age and Experience contribute minimally (and are nearly collinear).</div>', unsafe_allow_html=True)
@@ -918,7 +919,7 @@ with tab4:
             width=0.5,
         ))
         fig_cross.update_layout(**CHART_THEME, height=340,
-                                 title="Online Banking Adoption: Loan Acceptors with CD Account Dominate",
+                                 title_text="Online Banking Adoption: Loan Acceptors with CD Account Dominate",
                                  yaxis_title="% Using Online Banking",
                                  yaxis_range=[0,110])
         st.plotly_chart(fig_cross, use_container_width=True)
